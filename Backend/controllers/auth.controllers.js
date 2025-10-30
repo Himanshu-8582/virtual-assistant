@@ -1,14 +1,18 @@
 import User from "../models/user.models.js";
 import bcrypt from "bcryptjs";
+import genToken from "./token.js";
 
 export const signUp = async (req, res) => {
+    // console.log("📥 Incoming signup data:", req.body);
     try {
         const { name, email, password } = req.body;
         const existEmail = await User.findOne({ email });
         if (existEmail) {
+            // console.log("⚠️ Email already exists:", email);
             return res.status(400).json({ message: "Email already exists" });
         }
         if (password.length < 6) {
+            // console.log("⚠️ Password too short:", password);
             return res.status(400).json({ message: "Password must be at least 6 characters long" });
         }
 
@@ -29,6 +33,7 @@ export const signUp = async (req, res) => {
         })                                         // we store the token in an HTTP-only cookie that expires in 7 days. so we can use this token to authenticate the user in subsequent requests.
         res.status(201).json({ message: "User created successfully", user });
     } catch (error) {
+        // console.log("❌ Error during signup:", error);
         return res.status(500).json({ message: `signUp error: ${error}` });
     }
 }
