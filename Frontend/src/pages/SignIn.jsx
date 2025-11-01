@@ -27,10 +27,13 @@ export default function SignIn() {
         email,
         password
       }, {withCredentials : true});
-      console.log(result);
+      // console.log(result);
+      setUserData(result.data);
       setLoading(false);
+      navigate("/");
     } catch (error) {
       console.log(error);
+      setUserData(null);
       setLoading(false);
       setError(error.response.data.message);
     }
@@ -44,7 +47,7 @@ export default function SignIn() {
       flex-col justify-center items-center gap-[20px] px-[30px]' onSubmit={handleSignin}>
         <h1 className='text-white text-[30px] font-semibold mb-[30px]'>Sign In to <span className='text-blue-400'>Virtual Assistant</span></h1>
         
-        <input type="text" value={email} placeholder='Email' className='w-full h-[60px] outline-none border-2 border-white bg-transparent
+        <input type="email" value={email} placeholder='Email' className='w-full h-[60px] outline-none border-2 border-white bg-transparent
          text-white placeholder-gray-300 px-[20px] py-[20px] rounded-full text-[18px]' required onChange={(e)=>setEmail(e.target.value)} />
         
         <div className='w-full h-[60px] border-2 border-white bg-transparent text-white rounded-full text-[18px] relative'>

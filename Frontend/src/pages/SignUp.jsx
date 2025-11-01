@@ -10,7 +10,7 @@ import { userDataContext } from '../context/userContext.jsx';
 export default function SignUp() {
   const navigate = useNavigate();
 
-  const {serverUrl} = useContext(userDataContext);
+  const {serverUrl,userData, setUserData} = useContext(userDataContext);
 
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState('');
@@ -29,10 +29,13 @@ export default function SignUp() {
         email,
         password
       }, {withCredentials : true});
-      console.log(result);
+      // console.log(result);
+      setUserData(result.data);
       setLoading(false);
+      navigate("/customize");
     } catch (error) {
       console.log(error);
+      setUserData(null);
       setError(error.response.data.message);
       setLoading(false);
     }
@@ -49,7 +52,7 @@ export default function SignUp() {
         <input type="text" value={name} placeholder='Enter your name' className='w-full h-[60px] outline-none border-2 border-white bg-transparent
          text-white placeholder-gray-300 px-[20px] py-[20px] rounded-full text-[18px]' required onChange={(e)=>setName(e.target.value)} />
         
-        <input type="text" value={email} placeholder='Email' className='w-full h-[60px] outline-none border-2 border-white bg-transparent
+        <input type="email" value={email} placeholder='Email' className='w-full h-[60px] outline-none border-2 border-white bg-transparent
          text-white placeholder-gray-300 px-[20px] py-[20px] rounded-full text-[18px]' required onChange={(e)=>setEmail(e.target.value)} />
         
         <div className='w-full h-[60px] border-2 border-white bg-transparent text-white rounded-full text-[18px] relative'>
