@@ -3,6 +3,7 @@ import Card from '../components/Card';
 import { RiImageAddLine } from "react-icons/ri";
 import { userDataContext } from '../context/userContext.jsx';
 import { useNavigate } from 'react-router-dom';
+import { MdKeyboardBackspace } from "react-icons/md";
 
 import image1 from "../assets/image1.png";
 import image2 from "../assets/image2.jpg";
@@ -16,7 +17,9 @@ export default function Customize() {
 
   const { serverUrl, userData, setUserData, frontendImage, setFrontendImage, backendImage, setBackendImage, selectedImage, setSelectedImage } = useContext(userDataContext);
   const inputImage = useRef();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  
+  console.log("customize: ", userData);
 
   const handleImage = (e) => {
     const file = e.target.files[0];
@@ -26,6 +29,9 @@ export default function Customize() {
 
   return (
     <div className="w-full h-[100vh] bg-gradient-to-t from-black to-[#080862] flex justify-center items-center flex-col">
+      <MdKeyboardBackspace className='absolute top-[30px] left-[30px] text-white w-[25px] h-[25px] cursor-pointer'
+              onClick={()=>navigate("/")}
+            />
       <h1 className='text-white text-[30px] text-center p-[20px] '>Select your <span className='text-blue-200'>Assistant Image</span></h1>
       <div className='w-full max-w-[900px] flex justify-center items-center flex-wrap gap-[15px] mb-30px'>
         <Card image={image1} />

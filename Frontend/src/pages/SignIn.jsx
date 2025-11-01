@@ -10,7 +10,7 @@ import { userDataContext } from '../context/userContext.jsx';
 export default function SignIn() {
   const navigate = useNavigate();
 
-  const {serverUrl} = useContext(userDataContext);
+  const {serverUrl,userData, setUserData} = useContext(userDataContext);
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');

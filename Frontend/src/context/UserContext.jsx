@@ -16,7 +16,7 @@ export default function UserContext({ children }) {
     try {
       const result = await axios.get(`${serverUrl}/api/user/current`, { withCredentials: true });
       setUserData(result.data);
-      console.log(result.data);
+      // console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -31,10 +31,8 @@ export default function UserContext({ children }) {
     serverUrl, userData, setUserData, frontendImage, setFrontendImage, backendImage, setBackendImage, selectedImage, setSelectedImage
   }
   return (
-    <div>
       <userDataContext.Provider value={values}>
         {children}
       </userDataContext.Provider>
-    </div>
   )
 }
