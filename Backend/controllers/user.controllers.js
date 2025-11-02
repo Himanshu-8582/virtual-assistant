@@ -37,21 +37,59 @@ export const updateAssistant = async (req,res) => {
 }
 
 
-export const askToAssistant = async (req,res) => {
+export const askToAssistant = async (req, res) => {
+    
     try {
+        // console.log("askToAssistant called ✅");
+        
         const { command } = req.body;
+        
         const user = await User.findById(req.userId);
+        // console.log("User found:", user?._id);
+
+
         const userName = user.name;
         const assistantName = user.assistantName;
-        const result = await gemeniResponse(command, userName, assistantName);
+        // console.log("UserName:", userName, "AssistantName:", assistantName);
 
-        const jsonMatch = result.match(/{[\s\S]*}/);
+        const result = await gemeniResponse(command, userName, assistantName);
+        // console.log("Gemini raw result:", result);
+
+        
+        // Extract text safely
+        let resultText;
+
+        if (typeof result === "string") {
+            resultText = result;
+        } else if (result.response && typeof result.response.text === "function") {
+            resultText = await result.response.text(); // Gemini SDK format
+        } else if (result.candidates?.[0]?.content?.parts?.[0]?.text) {
+            resultText = result.candidates[0].content.parts[0].text; // raw API format
+        } else {
+            console.error("❌ Unable to extract text from Gemini response");
+            return res.status(500).json({ response: "Invalid Gemini response format" });
+        }
+
+        // console.log("Gemini text result:", resultText);
+
+        const jsonMatch = resultText.match(/{[\s\S]*}/);
         if (!jsonMatch) {
+            console.log("No JSON found in gemini result ❌");
             return res.status(400).json({ response: "Sorry, I can't understand" });
         }
 
+        // const jsonMatch = result.match(/{[\s\S]*}/);
+        // console.log(jsonMatch);
+        // if (!jsonMatch) {
+        //     console.log("No JSON found in gemini result ❌");
+        //     return res.status(400).json({ response: "Sorry, I can't understand" });
+        // }
+
         const gemResult = JSON.parse(jsonMatch[0]);
+        // console.log("Parsed gemResult:", gemResult);
+
         const type = gemResult.type;
+        // console.log("Type:", type);
 
         switch (type) {
             case 'get-date':

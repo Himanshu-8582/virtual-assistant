@@ -36,7 +36,7 @@ const gemeniResponse = async (command,assistantName,userName) => {
             - "get_month": if user asks for the current month.
 
         Important:
-            - If someone asks who invented you, respond with "{author name}".
+            - If someone asks who invented you, respond with ${userName}.
             - Only respond with the JSON object , nothing else.
 
             now your userInput- ${command}

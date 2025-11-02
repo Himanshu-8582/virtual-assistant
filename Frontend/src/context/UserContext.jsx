@@ -33,6 +33,19 @@ export default function UserContext({ children }) {
     }
   }
 
+
+  const getGeminiResponse = async (command) => {
+    try {
+      const result = await axios.post(`${serverUrl}/api/user/asktoassistant`, { command }, { withCredentials: true });
+      return result.data;
+    } catch (error) {
+      console.log("getGeminiResponse me error h");
+      console.log(error);
+    }
+  }
+
+
+
   useEffect(() => {
     handleCurrUser();
   }, []);
@@ -50,7 +63,7 @@ export default function UserContext({ children }) {
   }, [userData]);
 
   const values = {
-    serverUrl, userData, setUserData, frontendImage, setFrontendImage, backendImage, setBackendImage, selectedImage, setSelectedImage
+    serverUrl, userData, setUserData, frontendImage, setFrontendImage, backendImage, setBackendImage, selectedImage, setSelectedImage, getGeminiResponse
   }
   return (
       <userDataContext.Provider value={values}>

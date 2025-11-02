@@ -5,7 +5,7 @@ import { IoEyeOff } from "react-icons/io5";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { userDataContext } from '../context/userContext.jsx';
+import { userDataContext } from '../context/UserContext.jsx';
 
 export default function SignIn() {
   const navigate = useNavigate();
