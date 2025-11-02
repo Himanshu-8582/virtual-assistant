@@ -9,12 +9,15 @@ export default function Home() {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      const result = await axios.get(`${serverUrl}/api/user/logout`, { withCredentials: true });
+      const result = await axios.get(`${serverUrl}/api/auth/logout`, { withCredentials: true });
+      
+    } catch (error) {
+      console.log("nahi hua")
+      console.log(error);
+    } finally {
+      localStorage.removeItem("assistantData");
       setUserData(null);
       navigate("/signin");
-    } catch (error) {
-      setUserData(null);
-      console.log(error);
     }
   }
   return (
