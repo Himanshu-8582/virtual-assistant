@@ -24,6 +24,14 @@ export default function Home() {
   }
 
 
+  const speak = (text) => {
+    const utterence = new SpeechSynthesisUtterance(text);
+    console.log(text);
+    console.log(utterence);
+    window.speechSynthesis.speak(utterence);
+  }
+
+
   useEffect(() => {
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -38,7 +46,9 @@ export default function Home() {
       console.log(userData.assistantName);
       if (transcript.toLowerCase().includes(userData.assistantName.toLowerCase())) {
         const data = await getGeminiResponse(transcript)
-        console.log(data);
+        // console.log(data);
+        // console.log(data.response);
+        speak(data.response);
       }
     }
 

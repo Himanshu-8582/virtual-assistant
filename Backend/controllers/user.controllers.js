@@ -52,7 +52,7 @@ export const askToAssistant = async (req, res) => {
         const assistantName = user.assistantName;
         // console.log("UserName:", userName, "AssistantName:", assistantName);
 
-        const result = await gemeniResponse(command, userName, assistantName);
+        const result = await gemeniResponse(command, assistantName, userName);
         // console.log("Gemini raw result:", result);
 
         
@@ -116,20 +116,19 @@ export const askToAssistant = async (req, res) => {
                     userInput: gemResult.userInput,
                     response: `Today is ${moment().format("MMMM")}`
                 });
-            case 'google_search':
-            case 'youtube_search':
-            case 'youtube_play':
+            case 'google-search':
+            case 'youtube-search':
+            case 'youtube-play':
             case 'general':
-            case 'calculator_open':
-            case 'instagram_open':
-            case 'facebook_open':
+            case 'calculator-open':
+            case 'instagram-open':
+            case 'facebook-open':
             case 'weather-show':
                 return res.json({
                     type,
                     userInput: gemResult.userInput,
                     response: gemResult.response,
                 });
-            
             default:
                 return res.status(400).json({ response: "I didn't understand that command." });
         }
